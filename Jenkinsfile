@@ -26,13 +26,13 @@ pipeline {
                 sh 'npm install'  
             }
         }
-        // stage('Docker Build') {
-        //     steps {
-        //         sh ''' # used to run multiple commands in one step
-        //             docker build -t pmahalakshmi25/backend:${appVersion} .
-        //             docker images
-        //         '''
-        //     }
-        // }
+        stage('Docker Build') {
+            steps {
+                sh ''' //used to run multiple commands in one step
+                    docker build -t pmahalakshmi25/backend:${appVersion} .
+                    docker images
+                '''
+            }
+        }
     }
 }
