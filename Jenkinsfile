@@ -20,18 +20,18 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
-            steps {
+        // stage('Install Dependencies') {
+        //     steps {
 
-                sh 'npm install'  
-            }
-        }
-        stage('Docker Build') {
-            steps {
-                sh ''' # used to run multiple commands in one step
-                    docker build -t pmahalakshmi25/backend:${appVersion} .
-                    docker images
-                '''
-            }
-        }
+        //         sh 'npm install'  
+        //     }
+        // }
+        // stage('Docker Build') {
+        //     steps {
+        //         sh ''' # used to run multiple commands in one step
+        //             docker build -t pmahalakshmi25/backend:${appVersion} .
+        //             docker images
+        //         '''
+        //     }
+        // }
 }
