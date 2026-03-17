@@ -20,12 +20,12 @@ pipeline {
                 }
             }
         }
-        // stage('Install Dependencies') {
-        //     steps {
+        stage('Install Dependencies') {
+            steps {
 
-        //         sh 'npm install'  
-        //     }
-        // }
+                sh 'npm install'  
+            }
+        }
         // stage('Docker Build') {
         //     steps {
         //         sh ''' # used to run multiple commands in one step
