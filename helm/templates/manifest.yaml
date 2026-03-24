@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend
+  namespace: expense
+data:
+  DB_HOST: {{ .Values.configMap.db_host }}
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: expense
+  labels: # these are replicaset labels
+    app: backend
+    tier: api
+    project: expense
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    # these are used to select the pod to create replicas
+    matchLabels:
+      app: backend
+      tier: api
+      project: expense
+  # this is pod definition
+  template:
+    metadata:
+      # these labels belongs to pod
+      labels:
+        app: backend
+        tier: api
+        project: expense
+    spec:
+      containers:
+      - name: backend
+        image: pmahalakshmi25/backend:{{ .Values.deployment.imageVersion }}
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+          #limits sholud be greater than or equal to requests
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+        envFrom:
+        - configMapRef:
+            name: backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: expense
+spec:
+  selector:
+    app: backend
+    tier: api
+    project: expense
+  ports:
+  - name: backend-port
+    protocol: TCP
+    port: 8080 #service port
+    targetPort: 8080 #container port
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend
+  namespace: expense  
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: {{ .Values.hpa.cpuUtilization }} #usually 75 in the real env
