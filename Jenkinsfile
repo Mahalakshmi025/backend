@@ -55,6 +55,7 @@ pipeline {
                         helm upgrade --install ${component} -n ${project} -f values-${environment}.yaml
 
                     """
+                }
             }
         }
     }
