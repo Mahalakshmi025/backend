@@ -4,7 +4,7 @@ metadata:
   name: backend
   namespace: expense
 data:
-  DB_HOST: {{ .Values.configMap.db_host }}
+  DB_HOST: {{ .Values.configMap.db_host }} #endpoint of rds
 ---  
 apiVersion: apps/v1
 kind: Deployment
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: pmahalakshmi25/backend:{{ .Values.deployment.imageVersion }}
+        image: "{{ .Values.deployment.imageURL }}:{{ .Values.deployment.imageVersion }}"
         resources:
           limits:
             memory: "128Mi"
