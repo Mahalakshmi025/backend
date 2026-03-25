@@ -33,10 +33,10 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                SCANNER_HOME = tool 'sonar-6.0' #scanner config
+                SCANNER_HOME = tool 'sonar-6.0' //scanner config
             }
             steps {
-                #sonar server injectin
+                //sonar server injectin
                 withSonarQubeEnv('sonar-6.0') {
 
                     sh '$SCANNER_HOME/bin/sonar-scanner'
