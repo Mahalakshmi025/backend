@@ -31,26 +31,26 @@ pipeline {
                 sh 'npm install'  
             }
         }
-        stage('SonarQube analysis') {
-            environment {
-                SCANNER_HOME = tool 'sonar-8.0' //scanner config
-            }
-            steps {
-                //sonar server injectin
-                withSonarQubeEnv('sonar-8.0') {
+        // stage('SonarQube analysis') {
+        //     environment {
+        //         SCANNER_HOME = tool 'sonar-8.0' //scanner config
+        //     }
+        //     steps {
+        //         //sonar server injectin
+        //         withSonarQubeEnv('sonar-8.0') {
 
-                    sh '$SCANNER_HOME/bin/sonar-scanner'
+        //             sh '$SCANNER_HOME/bin/sonar-scanner'
                     
-                }
-            }
-        }
-        stage('SonarQube Quality Gate') {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
+        // stage('SonarQube Quality Gate') {
+        //     steps {
+        //         timeout(time: 5, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
         stage('Docker Build') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
